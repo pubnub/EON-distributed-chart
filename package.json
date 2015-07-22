@@ -1,0 +1,25 @@
+{
+  "name": "eon-distributed",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pubnub/EON-distributed.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pubnub/EON-distributed/issues"
+  },
+  "homepage": "https://github.com/pubnub/EON-distributed#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "express": "^4.13.1",
+    "node-uuid": "^1.4.3",
+    "pubnub": "^3.7.13"
+  }
+}
