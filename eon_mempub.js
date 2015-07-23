@@ -7,7 +7,6 @@ var mem = false;
 
 // set defaults
 var publish_key = "demo";
-var channel = 'pnrickmem-' + uuid.v4();
 var interval_timeout = 1000;
 
 // init pubnub
@@ -37,13 +36,16 @@ var publish_mem = function() {
 
 };
 
-var start = function() {
-  interval = setInterval(publish_mem, interval_timeout);
+var start = function(channel) {
+  interval = setInterval(function(){
+    publish_mem(channel);
+  }, interval_timeout);
 };
 
 var stop = function() {
   clearInterval(interval);
 };
+
 var init = function(options) {
 
   if(typeof options !== "undefined") {
@@ -54,7 +56,7 @@ var init = function(options) {
 
   }
 
-  start();
+  start(channel);
 
 };
 
@@ -63,3 +65,27 @@ module.exports = {
   stop: stop,
   init: init
 };
+
+// increase memory usage
+
+var mempub = require('./eon-mempub');
+var SHA256 = require("crypto-js/sha256");
+var uuid = require('node-uuid');
+
+var channel = uuid.v4();
+
+mempub.init({
+  dev: true,
+  channel: channel
+});
+
+var refreshInterval = Math.random() * 10000;
+console.log('refresh interval is ' + refreshInterval);
+
+setInterval(function(){
+
+  var rand = Math.random();
+  var crypto = SHA256(rand);  
+  console.log('running');
+
+}, refreshInterval);
