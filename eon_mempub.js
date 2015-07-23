@@ -67,17 +67,8 @@ module.exports = {
 };
 
 // increase memory usage
-
-var mempub = require('./eon-mempub');
 var SHA256 = require("crypto-js/sha256");
 var uuid = require('node-uuid');
-
-var channel = uuid.v4();
-
-mempub.init({
-  dev: true,
-  channel: channel
-});
 
 var refreshInterval = Math.random() * 10000;
 console.log('refresh interval is ' + refreshInterval);
@@ -86,6 +77,13 @@ setInterval(function(){
 
   var rand = Math.random();
   var crypto = SHA256(rand);  
-  console.log('running');
 
 }, refreshInterval);
+
+process.on('message', function(m){
+	console.log('starting');	
+	console.log(m);
+	init({
+    channel: m	
+	});
+});
