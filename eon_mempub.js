@@ -20,7 +20,7 @@ var publish_mem = function(process_id) {
   
   mem = process.memoryUsage();
 
-  console.log('publishing ' + process_id);
+	//  console.log('publishing ' + process_id);
 
   // publish to pubnub
   pubnub.publish({
