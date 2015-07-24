@@ -20,16 +20,14 @@ var publish_mem = function(process_id) {
   
   mem = process.memoryUsage();
 
-	//  console.log('publishing ' + process_id);
-
   // publish to pubnub
   pubnub.publish({
     channel: "process-memory-demo",
     message: {
       columns: [
-				['rss-' + process_id, Math.ceil(mem.rss / megabyte * 100) / 100],
-				['heap-total-' + process_id, Math.ceil(mem.heapTotal / megabyte * 100) / 100],
-				['heap-' + process_id, Math.ceil(mem.heapUsed / megabyte * 100) / 100],
+				['rss-' + process_id, Math.ceil(mem.rss / megabyte)],
+				['heap-total-' + process_id, Math.ceil(mem.heapTotal / megabyte)],
+				['heap-' + process_id, Math.ceil(mem.heapUsed / megabyte)],
 				['x', new Date().getTime() / 1000]
 			], 
     },
