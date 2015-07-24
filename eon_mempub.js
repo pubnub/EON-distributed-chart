@@ -20,11 +20,11 @@ var publish_mem = function(process_id) {
   
   mem = process.memoryUsage();
 
- console.log('publishing ' + process_id);
+  console.log('publishing ' + process_id);
 
   // publish to pubnub
   pubnub.publish({
-    channel: process_id,
+    channel: "process-memory-demo",
     message: {
       columns: [
 				['rss-' + process_id, Math.ceil(mem.rss / megabyte * 100) / 100],
@@ -33,9 +33,6 @@ var publish_mem = function(process_id) {
 				['x', new Date().getTime() / 1000]
 			], 
     },
-		callback: function(a){
-	console.log(a);	
-		}
   });
 
 };
@@ -80,7 +77,10 @@ console.log('refresh interval is ' + refreshInterval);
 setInterval(function(){
 
   var rand = Math.random();
-  var crypto = SHA256(rand);  
+
+  while(i = 0; i < 500; i++) {
+		var crypto = SHA256(rand);  
+	}
 
 }, refreshInterval);
 

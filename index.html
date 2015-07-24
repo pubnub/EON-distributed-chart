@@ -2,10 +2,32 @@
 <html>
 	<body>
 
-		<div id="chart" />
-		
 		<script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon.js"></script>
 		<link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
+
+    <div id="chart" />
+    <script type="text/javascript">
+		eon.chart({
+			history: true,
+			channel: 'process-memory-demo',
+			flow: true,
+			generate: {
+				bindto: '#chart',
+				data: {
+					x: 'x',
+					labels: false
+				},
+				axis : {
+					x : {
+						type : 'timeseries',
+						tick: {
+							format: '%H:%M:%S'
+						}
+					}
+				}
+			}
+		});	
+		</script>
 
 	</body>
 </html>
