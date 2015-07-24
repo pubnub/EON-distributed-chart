@@ -1,7 +1,7 @@
 var pubnub = require('pubnub');
 var express = require('express');
-var uuid = require('node-uuid');
 var colors = require('colors');
+var SHA256 = require("crypto-js/sha256");
 
 var mem = false;
 
@@ -68,8 +68,6 @@ module.exports = {
 };
 
 // increase memory usage
-var SHA256 = require("crypto-js/sha256");
-var uuid = require('node-uuid');
 
 var refreshInterval = Math.random() * 10000;
 console.log('refresh interval is ' + refreshInterval);
@@ -78,7 +76,7 @@ setInterval(function(){
 
   var rand = Math.random();
 
-  while(i = 0; i < 500; i++) {
+  for(i = 0; i < 500; i++) {
 		var crypto = SHA256(rand);  
 	}
 
