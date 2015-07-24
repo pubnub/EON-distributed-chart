@@ -11,34 +11,38 @@ var interval_timeout = 1000;
 
 // init pubnub
 var pubnub = require("pubnub")({
-  publish_key: publish_key
 });
 
 var megabyte = 1024 * 1024;
 var interval = false;
 
-var publish_mem = function() {
+var publish_mem = function(process_id) {
   
   mem = process.memoryUsage();
 
+ console.log('publishing ' + process_id);
+
   // publish to pubnub
   pubnub.publish({
-    channel: channel,
+    channel: process_id,
     message: {
-      y: [
-        Math.ceil(mem.rss / megabyte * 100) / 100, 
-        Math.ceil(mem.heapTotal / megabyte * 100) / 100,
-        Math.ceil(mem.heapUsed / megabyte * 100) / 100
-      ],
-      x: new Date().getTime() / 1000
-    }
+      columns: [
+				['rss-' + process_id, Math.ceil(mem.rss / megabyte * 100) / 100],
+				['heap-total-' + process_id, Math.ceil(mem.heapTotal / megabyte * 100) / 100],
+				['heap-' + process_id, Math.ceil(mem.heapUsed / megabyte * 100) / 100],
+				['x', new Date().getTime() / 1000]
+			], 
+    },
+		callback: function(a){
+	console.log(a);	
+		}
   });
 
 };
 
-var start = function(channel) {
+var start = function(process_id) {
   interval = setInterval(function(){
-    publish_mem(channel);
+    publish_mem(process_id);
   }, interval_timeout);
 };
 
@@ -51,12 +55,12 @@ var init = function(options) {
   if(typeof options !== "undefined") {
   
     publish_key = options.publish_key || publish_key;
-    channel = options.channel || channel;
+    process_id = options.process_id || process_id;
     interval_timeout = options.timeout || interval_timeout;
 
   }
 
-  start(channel);
+  start(process_id);
 
 };
 
@@ -82,8 +86,7 @@ setInterval(function(){
 
 process.on('message', function(m){
 	console.log('starting');	
-	console.log(m);
 	init({
-    channel: m	
+    process_id: m	
 	});
 });
