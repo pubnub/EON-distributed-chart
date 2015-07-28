@@ -1,6 +1,6 @@
 # Graph the memory usage of distributed systems in realtime
 
-![](http://i.imgur.com/MrdqkkD.gif)
+![](http://i.imgur.com/2QuiXfp.gif)
 
 Even harder than scaling multiple NodeJS processes is monitoring what's going on right now. Are the processes using too much memory? Are they down entirely? What processes are they doing right now, and how often?
 
@@ -117,37 +117,13 @@ eon.chart({
 
 You can learn more about customizing your graph on the [EON project page](http://www.pubnub.com/developers/eon/). Load this example in your browser and run the included `spawn.js` to see each of the 5 spawned processes log their memory to the graph.
 
-![](http://i.imgur.com/MrdqkkD.gif)
-
 ## How it works
 
 Each of the spawned processes publishes their memory usage to the same PubNub channel. Each memory value (rss, heapSize, heapTotal)
 
 You can learn more about customizing your graph on the [EON project page](http://www.pubnub.com/developers/eon/). Load this example in your browser and run the included `spawn.js` to see each of the 5 spawned processes log their memory to the graph.
 
-![](http://i.imgur.com/MrdqkkD.gif)
-
-## How it works
-
-Each of the spawned processes publishes their memory usage to the same PubNub channel. Each memory value (rss, heapSize, heapTotal)
-
-You can learn more about customizing your graph on the [EON project page](http://www.pubnub.com/developers/eon/). Load this example in your browser and run the included `spawn.js` to see each of the 5 spawned processes log their memory to the graph.
-
-![](http://i.imgur.com/MrdqkkD.gif)
-
-## How it works
-
-Each of the spawned processes publishes their memory usage to the same PubNub channel. Each memory value (rss, heapSize, heapTotal)
-
-You can learn more about customizing your graph on the [EON project page](http://www.pubnub.com/developers/eon/). Load this example in your browser and run the included `spawn.js` to see each of the 5 spawned processes log their memory to the graph.
-
-![](http://i.imgur.com/MrdqkkD.gif)
-
-## How it works
-
-Each of the spawned processes publishes their memory usage to the same PubNub channel. Each memory value (rss, heapSize, and heapTotal) is published to PubNub with a unique id. That data is immediately published across the PubNub data stream network. The EON chart is subscribing to the same exact channel, and every second it compiles all the data it receives and graphs it on the chart.
-
-Because each process uses a different amount of memory, the graph values are continually changing as each process encrypts strings and the NodeJS garbage collection runs. 
+![](http://i.imgur.com/2QuiXfp.gif)
 
 ## Full demo
 
