@@ -28,7 +28,7 @@ var publish_mem = function(process_id) {
 				['rss-' + process_id, Math.ceil(mem.rss / megabyte)],
 				['heap-total-' + process_id, Math.ceil(mem.heapTotal / megabyte)],
 				['heap-' + process_id, Math.ceil(mem.heapUsed / megabyte)],
-				['x', new Date().getTime() / 1000]
+				['x', new Date().getTime()]
 			], 
     },
   });
