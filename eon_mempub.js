@@ -6,11 +6,13 @@ var SHA256 = require("crypto-js/sha256");
 var mem = false;
 
 // set defaults
-var publish_key = "demo";
-var interval_timeout = 1000;
+var interval_timeout = 3000;
 
 // init pubnub
-var pubnub = require("pubnub")({
+var PUBNUB = require("pubnub");
+var pubnub = PUBNUB.init({
+  publish_key: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
+  subscribe_key: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
 });
 
 var megabyte = 1024 * 1024;
@@ -22,18 +24,18 @@ var publish_mem = function(process_id) {
 
   var date = new Date().getTime();
 
-  console.log(date);
-
   var msg = {};
   msg['rss-' + process_id] = Math.ceil(mem.rss / megabyte);
   msg['heap-total-' + process_id] = Math.ceil(mem.heapTotal / megabyte);
   msg['heap-' + process_id] = Math.ceil(mem.heapUsed / megabyte);
 
+  console.log(msg)
+
   // publish to pubnub
   pubnub.publish({
     channel: "process-memory-demo",
     message: {
-      json: msg, 
+      eon: msg, 
     },
   });
 
@@ -53,7 +55,6 @@ var init = function(options) {
 
   if(typeof options !== "undefined") {
   
-    publish_key = options.publish_key || publish_key;
     process_id = options.process_id || process_id;
     interval_timeout = options.timeout || interval_timeout;
 

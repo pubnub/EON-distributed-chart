@@ -1,36 +1,35 @@
-<!DOCTYPE html>
 <html>
-	<body>
+  <head>
 
-		<script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon.js"></script>
-		<link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
+    <!-- needs to be updated with newest eon lib version -->
+    <link rel="stylesheet" type="text/css" href="../bower_components/c3/c3.min.css">
+    <script src="../bower_components/pubnub/web/pubnub.min.js"></script>
+    <script src="../bower_components/d3/d3.min.js"></script>
+    <script src="../bower_components/c3/c3.min.js"></script>
+    <script src="../bower_components/subsub/subsub.js"></script>
+    <script src="../bower_components/visibilityjs/lib/visibility.core.js"></script>
+    <script src="../pubnub-c3.js"></script>
 
-    <div id="chart" />
-    <script type="text/javascript">
-		eon.chart({
-			channel: 'process-memory-demo',
-			flow: true,
-			generate: {
-				bindto: '#chart',
-				data: {
-					x: 'x',
-					labels: false
-				},
-				axis : {
-					x : {
-						type : 'timeseries',
-						tick: {
-							format: '%H:%M:%S'
-						}
-					}
-				}
-			},
-			transform: function (x) {
-				console.log(x.columns)
-				return x;
-			}
-		});	
-		</script>
-
-	</body>
+  </head>
+  <body>
+    <div id="chart"></div>
+    <script>
+      eon.chart({
+        history: true,
+        channel: 'process-memory-demo',
+        flow: true,
+        limit: 100,
+        generate: {
+          bindto: '#chart',
+          transition: {
+            duration: 1
+          },
+          data: {
+            type: 'scatter',
+            labels: true
+          }
+        }
+      });
+    </script>
+  </body>
 </html>
