@@ -64,17 +64,23 @@ var publish_mem = function(process_id) {
   
   mem = process.memoryUsage();
 
+  var date = new Date().getTime();
+
+  var msg = {};
+  msg['rss-' + process_id] = Math.ceil(mem.rss / megabyte);
+  msg['heap-total-' + process_id] = Math.ceil(mem.heapTotal / megabyte);
+  msg['heap-' + process_id] = Math.ceil(mem.heapUsed / megabyte);
+
+  console.log(msg)
+
+  // publish to pubnub
   pubnub.publish({
     channel: "process-memory-demo",
     message: {
-      columns: [
-				['rss-' + process_id, Math.ceil(mem.rss / megabyte)],
-				['heap-total-' + process_id, Math.ceil(mem.heapTotal / megabyte)],
-				['heap-' + process_id, Math.ceil(mem.heapUsed / megabyte)],
-				['x', new Date().getTime() / 1000]
-			], 
+      eon: msg, 
     },
   });
+
 };
 ```
 
@@ -83,8 +89,8 @@ var publish_mem = function(process_id) {
 In order to graph our process memory usage, we'll need an HTML page to embed the EON charting framework on. First, include the EON libraries within the page.
 
 ```html
-<script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon.js"></script>
-<link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
+<script type="text/javascript" src="//pubnub.github.io/eon/v/eon/0.0.9/eon.js"></script>
+<link type="text/css" rel="stylesheet" href="//pubnub.github.io/eon/v/eon/0.0.9/eon.css" />
 ```
 
 Next, a `div` is defined for your chart and the EON chart is configured through javascript. Notice how we use the same channel as within our spawned publishing process.
@@ -93,25 +99,21 @@ Next, a `div` is defined for your chart and the EON chart is configured through 
 <div id="chart" />
 <script type="text/javascript">
 eon.chart({
-	history: true,
-	channel: 'process-memory-demo',
-	flow: true,
-	generate: {
-		bindto: '#chart',
-		data: {
-			x: 'x',
-			labels: false
-		},
-		axis : {
-			x : {
-				type : 'timeseries',
-				tick: {
-					format: '%H:%M:%S'
-				}
-			}
-		}
-	}
-});	
+  history: true,
+  channel: 'process-memory-demo',
+  flow: true,
+  limit: 100,
+  generate: {
+    bindto: '#chart',
+    transition: {
+      duration: 1
+    },
+    data: {
+      type: 'scatter',
+      labels: true
+    }
+  }
+});
 </script>
 ```
 
