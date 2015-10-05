@@ -105,9 +105,6 @@ eon.chart({
   limit: 100,
   generate: {
     bindto: '#chart',
-    transition: {
-      duration: 1
-    },
     data: {
       type: 'scatter',
       labels: true
