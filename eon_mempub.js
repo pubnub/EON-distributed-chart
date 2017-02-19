@@ -11,33 +11,40 @@ var interval_timeout = 3000;
 // init pubnub
 var PUBNUB = require("pubnub");
 var pubnub = PUBNUB.init({
-  publish_key: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
-  subscribe_key: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
+  publish_key: 'pub-c-80d4bf2c-0da2-43eb-ad81-579b81d3c8f4',
+  subscribe_key: 'sub-c-5765cab0-f6c5-11e6-80ea-0619f8945a4f'
 });
 
 var megabyte = 1024 * 1024;
 var interval = false;
 
 var publish_mem = function(process_id) {
-  
+
   mem = process.memoryUsage();
 
   var date = new Date().getTime();
 
   var msg = {};
-  msg['rss-' + process_id] = Math.ceil(mem.rss / megabyte);
-  msg['heap-total-' + process_id] = Math.ceil(mem.heapTotal / megabyte);
-  msg['heap-' + process_id] = Math.ceil(mem.heapUsed / megabyte);
+  msg['211'] = Math.ceil(mem.rss / megabyte);
+  msg['212'] = Math.ceil(mem.heapTotal / megabyte);
+  msg['213'] = Math.ceil(mem.heapUsed / megabyte);
+  msg['214'] = Math.floor((Math.random() * 20) + 1) + Math.ceil(mem.rss / megabyte);
+  msg['215'] = Math.floor((Math.random() * 20) + 1) + Math.ceil(mem.heapTotal / megabyte);
+  msg['216'] = Math.floor((Math.random() * 20) + 1) + Math.ceil(mem.heapUsed / megabyte);
 
   console.log(msg)
 
   // publish to pubnub
   pubnub.publish({
-    channel: "process-memory-demo",
+    channel: "Demo",
     message: {
-      eon: msg, 
+      eon: msg,
     },
-  });
+  },function (status, response) {
+        if (status.error) {
+            console.log(status)
+        }
+    });
 
 };
 
@@ -54,7 +61,7 @@ var stop = function() {
 var init = function(options) {
 
   if(typeof options !== "undefined") {
-  
+
     process_id = options.process_id || process_id;
     interval_timeout = options.timeout || interval_timeout;
 
@@ -80,14 +87,14 @@ setInterval(function(){
   var rand = Math.random();
 
   for(i = 0; i < 500; i++) {
-		var crypto = SHA256(rand);  
+		var crypto = SHA256(rand);
 	}
 
 }, refreshInterval);
 
 process.on('message', function(m){
-	console.log('starting');	
+	console.log('starting');
 	init({
-    process_id: m	
+    process_id: m
 	});
 });

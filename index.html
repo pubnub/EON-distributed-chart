@@ -4,24 +4,60 @@
     <!-- needs to be updated with newest eon lib version -->
 <script type="text/javascript" src="http://pubnub.github.io/eon/v/eon/0.0.10/eon.js"></script>
 <link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/v/eon/0.0.10/eon.css" />
-
+<style TYPE="text/css">
+.option {background: #827F90; color: white;}
+.c3-circle {display:none;}
+.c3-circle:last-of-type {display:block;}
+</style>
   </head>
   <body>
 
+    <ul>
+      <li><input type="checkbox" class="lineCheck" value="211" autocomplete="off" checked><span class="option">211</span></li>
+      <li><input type="checkbox" class="lineCheck" value="212" autocomplete="off" checked><span class="option">212</span></li>
+      <li><input type="checkbox" class="lineCheck" value="213" autocomplete="off" checked><span class="option">213</span></li>
+      <li><input type="checkbox" class="lineCheck" value="214" autocomplete="off" checked><span class="option">214</span></li>
+      <li><input type="checkbox" class="lineCheck" value="215" autocomplete="off" checked><span class="option">215</span></li>
+      <li><input type="checkbox" class="lineCheck" value="216" autocomplete="off" checked><span class="option">216</span></li>
+    </ul>
     <div id="chart"></div>
 
     <script>
 
+    var lineCheck = document.getElementsByClassName("lineCheck");
+    var option = document.getElementsByClassName("option");
+
+    var showLine = function() {
+       chart.toggle(this.getAttribute("value"));
+    };
+
+    var focusLine = function() {
+       chart.focus(this.innerHTML);
+    };
+
+    var unfocusLine = function() {
+      chart.focus();
+    }
+
+    for (var i = 0; i < lineCheck.length; i++) {
+       lineCheck[i].addEventListener('change', showLine, false);
+    }
+
+    for (var i = 0; i < option.length; i++) {
+       option[i].addEventListener('mouseover', focusLine, false);
+       option[i].addEventListener('mouseout', unfocusLine, false);
+    }
+
       var pubnub = PUBNUB.init({
-        publish_key: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
-        subscribe_key: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
+        publish_key: 'pub-c-80d4bf2c-0da2-43eb-ad81-579b81d3c8f4',
+        subscribe_key: 'sub-c-5765cab0-f6c5-11e6-80ea-0619f8945a4f'
       });
 
-      eon.chart({
+      var chart = eon.chart({
         history: true,
-        channel: 'process-memory-demo',
-        flow: true,
-        limit: 100,
+        channel: 'Demo',
+        flow: false,
+        limit: 10,
         debug: false,
         pubnub: pubnub,
         rate: 500,
@@ -33,7 +69,23 @@
           },
           data: {
             type: 'spline',
-            labels: true
+            labels: false
+          },
+          point: {
+            show: true,
+            r: 12
+          },
+          legend: {
+            show: false
+          },
+          tooltip: {
+            show: false
+          },
+          axis: {
+            y: {
+              min: 0,
+              max: 100
+            }
           }
         }
       });
