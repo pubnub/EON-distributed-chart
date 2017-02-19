@@ -64,6 +64,11 @@
         debug: true,
         generate: {
           bindto: '#chart',
+          grid: {
+            y: {
+              show: true
+            }
+          },
           transition: {
             duration: 1
           },
@@ -82,9 +87,16 @@
             show: false
           },
           axis: {
-            y: {
+            y2: {
               min: 0,
-              max: 100
+              max: 100,
+              show: true
+            },
+            x: {
+              show: true
+            },
+            y: {
+              show: true
             }
           }
         }
